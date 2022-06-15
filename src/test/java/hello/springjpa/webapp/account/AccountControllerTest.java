@@ -1,5 +1,6 @@
 package hello.springjpa.webapp.account;
 
+import hello.springjpa.webapp.domain.Account;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -62,8 +63,10 @@ class AccountControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
 
-        assertTrue(accountRepository.existsByEmail("your@email.com"));
+        Account account = accountRepository.findByEmail("your@email.com");
+        assertNotNull(account);
+        assertNotEquals(account.getPassword(), "12345678");
         //메일이 잘 보내졌는지
-        then(javaMailSender).should().send(any(SimpleMailMessage.class)); //SimpleMailMessage.class 타입의 아무거나 호출이 됐는지 확인.
+        then(javaMailSender).should().send(any(SimpleMailMessage.class)); //SimpleMailMessage.class 타입의 아무거나 호출이 됐는지  확인.
     }
 }
