@@ -66,6 +66,7 @@ class AccountControllerTest {
         Account account = accountRepository.findByEmail("your@email.com");
         assertNotNull(account);
         assertNotEquals(account.getPassword(), "12345678");
+        assertNotNull(account.getEmailCheckToken());
         //메일이 잘 보내졌는지
         then(javaMailSender).should().send(any(SimpleMailMessage.class)); //SimpleMailMessage.class 타입의 아무거나 호출이 됐는지  확인.
     }

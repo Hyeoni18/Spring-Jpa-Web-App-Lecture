@@ -1,4 +1,4 @@
-package hello.springjpa.webapp;
+package hello.springjpa.webapp.mail;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
