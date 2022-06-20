@@ -45,8 +45,11 @@ public class Account {
     private boolean studyUpdatedByEmail; // 스터디 변경사항을 메일로 받을지
     private boolean studyUpdatedByWeb; // 스터디 변경사항을 웹으로 받을지
 
+    private LocalDateTime emailCheckTokenGeneratedAt; //이메일 토큰 생성 시간
+
     public void generateEmailCheckToken() {
         this.emailCheckToken = UUID.randomUUID().toString();
+        this.emailCheckTokenGeneratedAt = LocalDateTime.now();
     }
 
     public void completeSignUp() {
@@ -56,5 +59,9 @@ public class Account {
 
     public boolean isValidToken(String token) {
         return this.emailCheckToken.equals(token);
+    }
+
+    public boolean canSendConfirmEmail() {
+        return this.emailCheckTokenGeneratedAt.isBefore(LocalDateTime.now().minusHours(1)); //1시간 이전에 만들었다면 True
     }
 }

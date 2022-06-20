@@ -19,7 +19,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authz) -> authz
-                        .mvcMatchers("/","/login","/sign-up","/check-email",
+                        .mvcMatchers("/","/login","/sign-up",
                                 "/check-email-token", "/email-login", "/check-email-login",
                                 "/login-link") // 권한 확인 없이 접근
                         .permitAll()
