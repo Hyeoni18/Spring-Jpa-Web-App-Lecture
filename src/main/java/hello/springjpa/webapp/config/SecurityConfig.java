@@ -27,6 +27,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
+        
+        http.formLogin()
+                .loginPage("/login")  //로그인 화면 커스텀
+                .permitAll();
+
+        http.logout()
+                .logoutSuccessUrl("/"); //로그아웃 성공 후 이동 URL
         return http.build();
     }
 
