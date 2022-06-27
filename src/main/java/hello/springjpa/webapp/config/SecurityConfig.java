@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .permitAll();
 
         http.logout()
-                .logoutSuccessUrl("/"); //로그아웃 성공 후 이동 URL
+                .logoutSuccessUrl("/"); //로그 아웃 성공 후 이동 URL
         return http.build();
     }
 
