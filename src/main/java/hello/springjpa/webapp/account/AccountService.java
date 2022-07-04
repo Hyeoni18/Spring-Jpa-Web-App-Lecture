@@ -21,13 +21,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional // 3.추가 하지 않으면 JPA detached 상태가 어떤 영향을 주는지 알 수 있음
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional // 3.추가 하지 않으면 JPA detached 상태가 어떤 영향을 주는지 알 수 있음
     public Account processNewAccount(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm); // 1.account 저장한 후
         newAccount.generateEmailCheckToken(); // 2.token 생성 중
@@ -65,6 +65,7 @@ public class AccountService implements UserDetailsService {
         context.setAuthentication(token);
     }
 
+    @Transactional(readOnly = true) //읽기 전용. 데이터 변경 목적이 아닌 로그인시 데이터를 읽어오는 작업만 진행. 읽기 전용으로 write를 하지 않으니 성능이 좀 더 올라감.
     @Override
     public UserDetails loadUserByUsername(String emailOrNickname) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(emailOrNickname);
@@ -77,5 +78,10 @@ public class AccountService implements UserDetailsService {
         }
 
         return new UserAccount(account);
+    }
+
+    public void completeSignUp(Account account) {
+        account.completeSignUp();
+        login(account);
     }
 }
