@@ -1,5 +1,6 @@
-package hello.springjpa.webapp.settings;
+package hello.springjpa.webapp.settings.validator;
 
+import hello.springjpa.webapp.settings.form.PasswordForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

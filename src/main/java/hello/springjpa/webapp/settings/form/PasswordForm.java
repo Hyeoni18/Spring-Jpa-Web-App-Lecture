@@ -1,4 +1,4 @@
-package hello.springjpa.webapp.settings;
+package hello.springjpa.webapp.settings.form;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

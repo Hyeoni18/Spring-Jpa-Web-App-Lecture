@@ -1,4 +1,4 @@
-package hello.springjpa.webapp.settings;
+package hello.springjpa.webapp.settings.form;
 
 import hello.springjpa.webapp.domain.Account;
 import lombok.Data;
