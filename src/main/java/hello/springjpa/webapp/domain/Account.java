@@ -39,11 +39,11 @@ public class Account {
 
     // 알림 정보
     private boolean studyCreatedByEmail; // 스터디가 만들어졌음을 메일로 받을지
-    private boolean studyCreatedByWeb; // 스터디가 만들어졌음을 웹으로 받을지
+    private boolean studyCreatedByWeb = true; // 스터디가 만들어졌음을 웹으로 받을지
     private boolean studyEnrollmentResultByEmail; // 스터디 가입신청 결과를 메일로 받을지
-    private boolean studyEnrollmentResultByWeb; // 스터디 가입신청 결과를 웹으로 받을지
+    private boolean studyEnrollmentResultByWeb = true; // 스터디 가입신청 결과를 웹으로 받을지
     private boolean studyUpdatedByEmail; // 스터디 변경사항을 메일로 받을지
-    private boolean studyUpdatedByWeb; // 스터디 변경사항을 웹으로 받을지
+    private boolean studyUpdatedByWeb = true; // 스터디 변경사항을 웹으로 받을지
 
     private LocalDateTime emailCheckTokenGeneratedAt; //이메일 토큰 생성 시간
 
