@@ -58,7 +58,7 @@
                     <svg data-jdenticon-value="user127" th:data-jdenticon-value="${#authentication.name}"
                          width="24" height="24" class="rounded border bg-light"></svg>
                 </a>
-                <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
+                <!--<div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">-->
                     <h6 class="dropdown-header">
                         <span sec:authentication="name">Username</span>
                     </h6>
@@ -69,7 +69,7 @@
                     <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/logout}" method="post">
                         <button class="dropdown-item" type="submit">로그아웃</button>
                     </form>
-                </div>
+                <!--</div>-->
             </li>
         </ul>
     </div>
@@ -81,6 +81,15 @@
         <small class="d-block mb-3 text-muted">&copy; 2020</small>
     </div>
 </footer>
+
+<div th:fragment="settings-menu (currentMenu)" class="list-group">
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'}? active" href="#" th:href="@{/settings/profile}">프로필</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'}? active" href="#" th:href="@{/settings/password}">패스워드</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'notifications'}? active" href="#" th:href="@{/settings/notifications}">알림</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'tags'}? active" href="#" th:href="@{/settings/tags}">관심 주제</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'zones'}? active" href="#" th:href="@{/settings/zones}">활동 지역</a>
+    <a class="list-group-item list-group-item-action list-group-item-danger" th:classappend="${currentMenu == 'account'}? active" href="#" th:href="@{/settings/account}">계정</a>
+</div>
 
 <script type="application/javascript" th:fragment="form-validation">
     (function () {
