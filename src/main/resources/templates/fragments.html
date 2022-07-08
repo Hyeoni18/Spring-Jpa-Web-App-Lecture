@@ -8,12 +8,31 @@
     <title>StudyOlle</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/node_modules/@yaireo/tagify/dist/tagify.css">
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/node_modules/jdenticon/dist/jdenticon.min.js"></script>
     <style>
         .container {
-            max-width: 20%;
+            max-width: 100%;
+        }
+
+        .tagify--outside{
+            border: 0;
+        }
+
+        .tagify--outside .tagify__input{
+          order: -1;
+          flex: 100%;
+          border: 1px solid var(--tags-border-color);
+          margin-bottom: 1em;
+          transition: .1s;
+        }
+
+        .tagify--outside .tagify__input:hover{ border-color:var(--tags-hover-border-color); }
+        .tagify--outside.tagify--focus .tagify__input{
+          transition:0s;
+          border-color: var(--tags-focus-border-color);
         }
     </style>
 </head>
@@ -60,7 +79,7 @@
                     <img th:if="${!#strings.isEmpty(account?.profileImage)}" th:src="${account.profileImage}"
                          width="24" height="24" class="rounded border"/>
                 </a>
-                <!--<div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">-->
+<!--                <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">-->
                     <h6 class="dropdown-header">
                         <span sec:authentication="name">Username</span>
                     </h6>
@@ -71,7 +90,7 @@
                     <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/logout}" method="post">
                         <button class="dropdown-item" type="submit">로그아웃</button>
                     </form>
-                <!--</div>-->
+<!--                </div>-->
             </li>
         </ul>
     </div>

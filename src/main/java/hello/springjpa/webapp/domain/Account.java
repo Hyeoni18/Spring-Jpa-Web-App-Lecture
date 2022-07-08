@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -44,6 +45,9 @@ public class Account {
     private boolean studyEnrollmentResultByWeb = true; // 스터디 가입신청 결과를 웹으로 받을지
     private boolean studyUpdatedByEmail; // 스터디 변경사항을 메일로 받을지
     private boolean studyUpdatedByWeb = true; // 스터디 변경사항을 웹으로 받을지
+
+    @ManyToMany
+    private Set<Tag> tags;
 
     private LocalDateTime emailCheckTokenGeneratedAt; //이메일 토큰 생성 시간
 
