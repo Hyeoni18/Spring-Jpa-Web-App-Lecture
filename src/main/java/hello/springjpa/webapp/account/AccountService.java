@@ -1,6 +1,7 @@
 package hello.springjpa.webapp.account;
 
 import hello.springjpa.webapp.domain.Account;
+import hello.springjpa.webapp.domain.Tag;
 import hello.springjpa.webapp.settings.form.Notifications;
 import hello.springjpa.webapp.settings.form.Profile;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -106,5 +108,22 @@ public class AccountService implements UserDetailsService {
         account.setNickname(nickname);
         accountRepository.save(account);
         login(account);
+    }
+
+    public void sendLoginLink(Account account) {
+        account.generateEmailCheckToken();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(account.getEmail());
+        mailMessage.setSubject("스터디올래, 로그인 링크");
+        mailMessage.setText("/login-by-email?token="+account.getEmailCheckToken()
+                            +"&email="+account.getEmail());
+        javaMailSender.send(mailMessage);
+    }
+
+    public void addTag(Account account, Tag tag) {
+        //현재 account 객체는 detached 상태이기에 ToMany 관계인 tag 값들이 전부 null 임.
+        //그래서 account 객체를 다시 로딩해줘야 해. Lazy도 persist 상태만 가능함.
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        byId.ifPresent(a -> a.getTags().add(tag)); //있으면 추가해. 없으면 아무일도 일어나지 않음.
     }
 }
