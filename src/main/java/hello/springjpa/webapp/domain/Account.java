@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,7 +48,7 @@ public class Account {
     private boolean studyUpdatedByWeb = true; // 스터디 변경사항을 웹으로 받을지
 
     @ManyToMany
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>(); //비어있는 컬렉션으로 세팅하는게 좋음
 
     private LocalDateTime emailCheckTokenGeneratedAt; //이메일 토큰 생성 시간
 

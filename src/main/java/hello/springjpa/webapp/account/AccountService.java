@@ -25,7 +25,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-@Transactional // 3.추가 하지 않으면 JPA detached 상태가 어떤 영향을 주는지 알 수 있음
+@Transactional
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
@@ -34,21 +34,15 @@ public class AccountService implements UserDetailsService {
     private final ModelMapper modelMapper;
 
     public Account processNewAccount(SignUpForm signUpForm) {
-        Account newAccount = saveNewAccount(signUpForm); // 1.account 저장한 후
-        newAccount.generateEmailCheckToken(); // 2.token 생성 중
+        Account newAccount = saveNewAccount(signUpForm);
         sendSignUpConfirmEmail(newAccount);
         return newAccount;
     }
 
     private Account saveNewAccount(SignUpForm signUpForm) {
-        Account account = Account.builder()
-                .email(signUpForm.getEmail())
-                .nickname(signUpForm.getNickname())
-                .password(passwordEncoder.encode(signUpForm.getPassword()))
-                .studyCreatedByWeb(true)
-                .studyEnrollmentResultByWeb(true)
-                .studyUpdatedByWeb(true)
-                .build();
+        signUpForm.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
+        Account account = modelMapper.map(signUpForm, Account.class);
+        account.generateEmailCheckToken();
         return accountRepository.save(account);
     }
 

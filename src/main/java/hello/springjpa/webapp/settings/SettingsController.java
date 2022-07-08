@@ -148,7 +148,6 @@ public class SettingsController {
         List<String> allTags = tagRepository.findAll().stream().map(Tag::getTitle).collect(Collectors.toList());
         //위 리스트는 JAVA 객체에 있는 List 타입, JSON으로 변경하려면 ObjectMapper를 사용하면 됨. (Spring Boot에 기본적으로 의존성이 들어있음)
         model.addAttribute("whitelist", objectMapper.writeValueAsString(allTags));
-        System.out.println("STOP");
         return SETTINGS_TAGS_VIEW_NAME;
     }
 
