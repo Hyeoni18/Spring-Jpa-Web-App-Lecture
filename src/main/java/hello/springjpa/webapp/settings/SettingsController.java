@@ -1,5 +1,7 @@
 package hello.springjpa.webapp.settings;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.springjpa.webapp.account.AccountService;
 import hello.springjpa.webapp.account.CurrentUser;
 import hello.springjpa.webapp.domain.Account;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,6 +46,7 @@ public class SettingsController {
     private final ModelMapper modelMapper;
     private final NicknameValidator nicknameValidator;
     private final TagRepository tagRepository;
+    private final ObjectMapper objectMapper;
 
     @InitBinder("passwordForm")
     public void passwordFormInitBinder(WebDataBinder webDataBinder) {
@@ -135,11 +139,16 @@ public class SettingsController {
     }
 
     @GetMapping(SETTINGS_TAGS_URL)
-    public String updateTags(@CurrentUser Account account, Model model) {
+    public String updateTags(@CurrentUser Account account, Model model) throws JsonProcessingException {
         model.addAttribute(account);
         Set<Tag> tags = accountService.getTags(account);
         //view에 보여줄 땐 tag entity 타입이 아닌, 문자열로 전송. 문자열 타입의 리스트로. 모델에 아래처럼 담아서 넘김.
         model.addAttribute("tags",tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
+        //태그 목록을 whiteList로 제공, 목록을 다 가져온 후 스트림으로 매핑해서 type이 tag인데 string(title) type으로 변환, 그리고 List로 변환.
+        List<String> allTags = tagRepository.findAll().stream().map(Tag::getTitle).collect(Collectors.toList());
+        //위 리스트는 JAVA 객체에 있는 List 타입, JSON으로 변경하려면 ObjectMapper를 사용하면 됨. (Spring Boot에 기본적으로 의존성이 들어있음)
+        model.addAttribute("whitelist", objectMapper.writeValueAsString(allTags));
+        System.out.println("STOP");
         return SETTINGS_TAGS_VIEW_NAME;
     }
 
