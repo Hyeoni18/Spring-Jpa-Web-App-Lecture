@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -135,6 +137,9 @@ public class SettingsController {
     @GetMapping(SETTINGS_TAGS_URL)
     public String updateTags(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
+        Set<Tag> tags = accountService.getTags(account);
+        //view에 보여줄 땐 tag entity 타입이 아닌, 문자열로 전송. 문자열 타입의 리스트로. 모델에 아래처럼 담아서 넘김.
+        model.addAttribute("tags",tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
         return SETTINGS_TAGS_VIEW_NAME;
     }
 

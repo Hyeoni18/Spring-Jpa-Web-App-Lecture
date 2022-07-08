@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -125,5 +126,10 @@ public class AccountService implements UserDetailsService {
         //그래서 account 객체를 다시 로딩해줘야 해. Lazy도 persist 상태만 가능함.
         Optional<Account> byId = accountRepository.findById(account.getId());
         byId.ifPresent(a -> a.getTags().add(tag)); //있으면 추가해. 없으면 아무일도 일어나지 않음.
+    }
+
+    public Set<Tag> getTags(Account account) {
+        Optional<Account> byId = accountRepository.findById(account.getId());
+        return byId.orElseThrow().getTags();
     }
 }
