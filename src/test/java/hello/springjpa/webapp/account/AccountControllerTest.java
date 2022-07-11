@@ -1,6 +1,8 @@
 package hello.springjpa.webapp.account;
 
 import hello.springjpa.webapp.domain.Account;
+import hello.springjpa.webapp.mail.EmailMessage;
+import hello.springjpa.webapp.mail.EmailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ class AccountControllerTest {
     private AccountRepository accountRepository;
 
     @MockBean
-    JavaMailSender javaMailSender;
+    EmailService emailService;
 
     @DisplayName("인증 메일 확인 - 입력값 오류")
     @Test
@@ -110,6 +112,6 @@ class AccountControllerTest {
         assertNotEquals(account.getPassword(), "12345678");
         assertNotNull(account.getEmailCheckToken());
         //메일이 잘 보내졌는지
-        then(javaMailSender).should().send(any(SimpleMailMessage.class)); //SimpleMailMessage.class 타입의 아무거나 호출이 됐는지  확인.
+        then(emailService).should().sendEmail(any(EmailMessage.class)); //SimpleMailMessage.class 타입의 아무거나 호출이 됐는지  확인.
     }
 }
