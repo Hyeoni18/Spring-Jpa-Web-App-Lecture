@@ -50,6 +50,9 @@ public class Account {
     @ManyToMany
     private Set<Tag> tags = new HashSet<>(); //비어있는 컬렉션으로 세팅하는게 좋음
 
+    @ManyToMany
+    private Set<Zone> zones = new HashSet<>();
+
     private LocalDateTime emailCheckTokenGeneratedAt; //이메일 토큰 생성 시간
 
     public void generateEmailCheckToken() {
