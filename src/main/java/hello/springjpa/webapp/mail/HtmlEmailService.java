@@ -30,6 +30,7 @@ public class HtmlEmailService implements EmailService {
             log.info("sent email: {}", emailMessage.getMessage());
         } catch (MessagingException e) {
             log.error("failed to send email", e);
+            throw new RuntimeException(e); //해당 에러가 발생하면 트랜잭션으로 인해 데이터 롤백이 발생함.
         }
     }
 }
