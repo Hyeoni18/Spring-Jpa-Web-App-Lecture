@@ -193,7 +193,7 @@ class SettingsControllerTest {
         assertFalse(usernick.getTags().contains(newTag));
     }
 
-    @WithAccount("keesun")
+    @WithAccount("usernick")
     @DisplayName("계정의 지역 정보 수정 폼")
     @Test
     void updateZonesForm() throws Exception {
@@ -204,7 +204,7 @@ class SettingsControllerTest {
                 .andExpect(model().attributeExists("zones"));
     }
 
-    @WithAccount("keesun")
+    @WithAccount("usernick")
     @DisplayName("계정의 지역 정보 추가")
     @Test
     void addZone() throws Exception {
@@ -217,18 +217,18 @@ class SettingsControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk());
 
-        Account keesun = accountRepository.findByNickname("keesun");
+        Account usernick = accountRepository.findByNickname("usernick");
         Zone zone = zoneRepository.findByCityAndProvince(testZone.getCity(), testZone.getProvince());
-        assertTrue(keesun.getZones().contains(zone));
+        assertTrue(usernick.getZones().contains(zone));
     }
 
-    @WithAccount("keesun")
+    @WithAccount("usernick")
     @DisplayName("계정의 지역 정보 삭제")
     @Test
     void removeZone() throws Exception {
-        Account keesun = accountRepository.findByNickname("keesun");
+        Account usernick = accountRepository.findByNickname("usernick");
         Zone zone = zoneRepository.findByCityAndProvince(testZone.getCity(), testZone.getProvince());
-        accountService.addZone(keesun, zone);
+        accountService.addZone(usernick, zone);
 
         ZoneForm zoneForm = new ZoneForm();
         zoneForm.setZoneName(testZone.toString());
@@ -239,6 +239,6 @@ class SettingsControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk());
 
-        assertFalse(keesun.getZones().contains(zone));
+        assertFalse(usernick.getZones().contains(zone));
     }
 }

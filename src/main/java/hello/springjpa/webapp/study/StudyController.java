@@ -8,6 +8,7 @@ import hello.springjpa.webapp.study.validator.StudyFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -57,5 +58,12 @@ public class StudyController {
         model.addAttribute(account);
         model.addAttribute(studyRepository.findByPath(path));
         return "study/view";
+    }
+
+    @GetMapping("/study/{path}/members")
+    public String viewStudyMembers(@CurrentUser Account account, @PathVariable String path, Model model) {
+        model.addAttribute(account);
+        model.addAttribute(studyRepository.findByPath(path));
+        return "study/members";
     }
 }
