@@ -11,6 +11,7 @@ import hello.springjpa.webapp.settings.form.*;
 import hello.springjpa.webapp.settings.validator.NicknameValidator;
 import hello.springjpa.webapp.settings.validator.PasswordFormValidator;
 import hello.springjpa.webapp.tag.TagRepository;
+import hello.springjpa.webapp.tag.TagService;
 import hello.springjpa.webapp.zone.ZoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -52,6 +53,7 @@ public class SettingsController {
     private final TagRepository tagRepository;
     private final ObjectMapper objectMapper;
     private final ZoneRepository zoneRepository;
+    private final TagService tagService;
 
     @InitBinder("passwordForm")
     public void passwordFormInitBinder(WebDataBinder webDataBinder) {
@@ -159,15 +161,8 @@ public class SettingsController {
     @PostMapping(TAGS+"/add")
     @ResponseBody
     public ResponseEntity addTag(@CurrentUser Account account, @RequestBody TagForm tagForm) {
-        String title = tagForm.getTagTitle();
-//        Tag tag = tagRepository.findByTitle(title).orElseGet(() -> tagRepository.save(Tag.builder()
-//                        .title(title)
-//                .build())); // find 실패하면 저장해서 불러오기 (Optional 사용시)
-        Tag tag = tagRepository.findByTitle(title);
-        if(tag == null) {
-            tag = tagRepository.save(Tag.builder().title(title).build());
-        }
-        accountService.addTag(account, tag);
+        Tag tag = tagService.findOrCreateNew(tagForm.getTagTitle());
+        accountService.addTag(account, tag); //여기선(settings/tag) account가 detached 상태이기에 db에서 다시 불러와야 해. 근데 study/tag 는 persist 상태야. 차이를 알아둬야 해.
         return ResponseEntity.ok().build();
     }
 

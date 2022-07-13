@@ -11,4 +11,10 @@ public interface StudyRepository extends JpaRepository<Study, Long> {
 
     @EntityGraph(value = "Study.withAll", type = EntityGraph.EntityGraphType.LOAD) //LOAD는 엔티티 매니저에 정의한 연관관계는 EAGER 모드로 가져오기. 나머지는 기본 fatch 타입에 따른다.
     Study findByPath(String path);
+
+    @EntityGraph(value = "Study.withTagsAndManagers", type = EntityGraph.EntityGraphType.FETCH)
+    Study findAccountWithTagsByPath(String path);
+
+    @EntityGraph(value = "Study.withZonesAndManagers", type = EntityGraph.EntityGraphType.FETCH)
+    Study findAccountWithZonesByPath(String path);
 }
