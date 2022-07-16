@@ -249,4 +249,12 @@ public class StudySettingController {
         attributes.addFlashAttribute("message", "스터디 이름을 수정했습니다.");
         return "redirect:/study/"+getPath(path)+"/settings/study";
     }
+
+    @PostMapping("/study/remove")
+    public String removeStudy(@CurrentUser Account account, @PathVariable String path, Model model) {
+        //보통 프로젝트는 삭제 하는 척을 함 (소프트 딜리트) 만약의 상황을 대비해 자료를 남겨 놓는 것. 하지만 여기선 진짜 삭제할거임.
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+        studyService.remove(study);
+        return "redirect:/";
+    }
 }
