@@ -68,4 +68,19 @@ public class StudyController {
         model.addAttribute(study);
         return "study/members";
     }
+
+    //GET으로 만들긴 했지만, UI가 form 으로 감싸서 버튼을 만들면 예쁜 구조가 안 나와서 GET으로 함. 원래는 form 으로 감싸서 POST로 하는게 맞음.
+    @GetMapping("/study/{path}/join")
+    public String joinStudy(@CurrentUser Account account, @PathVariable String path) {
+        Study study = studyRepository.findStudyWithManagersByPath(path);
+        studyService.addMember(study, account);
+        return "redirect:/study/"+study.getEncodedPath()+"/members";
+    }
+
+    @GetMapping("/study/{path}/leave")
+    public String leaveStudy(@CurrentUser Account account, @PathVariable String path) {
+        Study study = studyRepository.findStudyWithManagersByPath(path);
+        studyService.removeMember(study, account);
+        return "redirect:/study/"+study.getEncodedPath()+"/members";
+    }
 }
