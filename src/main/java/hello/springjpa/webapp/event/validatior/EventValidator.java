@@ -46,4 +46,10 @@ public class EventValidator implements Validator {
         //모임 종료 시간이 시작 시간보다 이전이면 안돼, 접수 종료 시간보다 이전이면 안돼.
         return eventForm.getEndDateTime().isBefore(eventForm.getStartDateTime()) || eventForm.getEndDateTime().isBefore(eventForm.getEndEnrollmentDateTime());
     }
+
+    public void validateUpdateForm(EventForm eventForm, Event event, Errors errors) {
+        if(eventForm.getLimitOfEnrollments() < event.getNumberOfAcceptedEnrollments()) {
+            errors.rejectValue("limitOfEnrollments", "wrong.value", "확인된 참가 신청보다 모집 인원 수가 커야 합니다.");
+        }
+    }
 }

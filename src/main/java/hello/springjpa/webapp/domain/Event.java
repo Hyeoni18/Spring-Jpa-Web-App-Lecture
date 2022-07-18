@@ -87,4 +87,7 @@ public class Event {
         return this.endEnrollmentDateTime.isAfter(LocalDateTime.now());
     }
 
+    public long getNumberOfAcceptedEnrollments() {
+        return this.enrollments.stream().filter(Enrollment::isAccepted).count();
+    }
 }
