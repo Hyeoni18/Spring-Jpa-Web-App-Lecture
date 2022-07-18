@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@NamedEntityGraph(name = "Event.withEnrollments", attributeNodes = @NamedAttributeNode("enrollments")) //이벤트 조회할 때 enrollments 함께 읽어오기. N+1 select 문제 해결.
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 public class Event {
@@ -76,6 +77,10 @@ public class Event {
             }
         }
         return false;
+    }
+
+    public int numberOfRemainSpots() {
+        return this.limitOfEnrollments - (int) this.enrollments.stream().filter(Enrollment::isAccepted).count();
     }
 
     private boolean isNotClosed() {
