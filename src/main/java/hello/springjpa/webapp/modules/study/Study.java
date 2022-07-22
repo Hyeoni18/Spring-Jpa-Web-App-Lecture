@@ -29,6 +29,9 @@ import java.util.Set;
         @NamedAttributeNode("managers")})
 @NamedEntityGraph(name = "Study.withManagers", attributeNodes = {
         @NamedAttributeNode("managers")})
+@NamedEntityGraph(name = "Study.withTagsAndZones", attributeNodes = {
+        @NamedAttributeNode("tags"),
+        @NamedAttributeNode("zones")})
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @NoArgsConstructor @AllArgsConstructor
@@ -152,10 +155,10 @@ public class Study {
     }
 
     public void addMemeber(Account account) {
-        this.managers.add(account);
+        this.members.add(account);
     }
 
     public boolean isManagedBy(Account account) {
-        return this.getMembers().contains(account);
+        return this.getManagers().contains(account);
     }
 }

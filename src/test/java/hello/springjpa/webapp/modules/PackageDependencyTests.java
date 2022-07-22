@@ -1,7 +1,6 @@
 package hello.springjpa.webapp.modules;
 
 import com.tngtech.archunit.junit.AnalyzeClasses;
-import com.tngtech.archunit.junit.ArchRules;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import hello.springjpa.webapp.App;

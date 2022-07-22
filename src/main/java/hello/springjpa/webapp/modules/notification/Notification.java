@@ -29,5 +29,5 @@ public class Notification {
     private LocalDateTime createdLocalDateTime;
 
     @Enumerated(EnumType.STRING)
-    private NotificationType notifivationType;
+    private NotificationType notificationType;
 }

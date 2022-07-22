@@ -19,8 +19,8 @@ public class StudyTest {
     void beforeEach() {
         study = new Study();
         account = new Account();
-        account.setNickname("keesun");
-        account.setPassword("123");
+        account.setNickname("usernick");
+        account.setPassword("asdfasdf");
         userAccount = new UserAccount(account);
 
     }
