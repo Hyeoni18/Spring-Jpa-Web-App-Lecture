@@ -1,11 +1,13 @@
 package hello.springjpa.webapp.modules.study;
 
 import hello.springjpa.webapp.modules.account.Account;
+import hello.springjpa.webapp.modules.study.event.StudyCreatedEvent;
 import hello.springjpa.webapp.modules.study.form.StudyDescriptionForm;
 import hello.springjpa.webapp.modules.tag.Tag;
 import hello.springjpa.webapp.modules.zone.Zone;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +21,12 @@ public class StudyService {
 
     private final StudyRepository studyRepository;
     private final ModelMapper modelMapper;
+    private final ApplicationEventPublisher eventPublisher; //비동기 적인 이벤트 기반 프로그래밍
 
     public Study createNewStudy(Study study, Account account) {
         Study newStudy = studyRepository.save(study);
         newStudy.addManager(account);
+        eventPublisher.publishEvent(new StudyCreatedEvent(newStudy));
         return newStudy;
     }
 
