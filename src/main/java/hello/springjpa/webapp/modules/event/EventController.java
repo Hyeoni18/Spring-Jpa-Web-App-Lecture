@@ -5,6 +5,7 @@ import hello.springjpa.webapp.modules.account.CurrentUser;
 import hello.springjpa.webapp.modules.event.form.EventForm;
 import hello.springjpa.webapp.modules.event.validatior.EventValidator;
 import hello.springjpa.webapp.modules.study.Study;
+import hello.springjpa.webapp.modules.study.StudyRepository;
 import hello.springjpa.webapp.modules.study.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,7 @@ public class EventController {
     private final ModelMapper modelMapper;
     private final EventValidator eventValidator;
     private final EventRepository eventRepository;
+    private final StudyRepository studyRepository;
 
     @InitBinder("eventForm")
     public void initBinder(WebDataBinder webDataBinder) {
@@ -62,7 +64,7 @@ public class EventController {
     public String getEvent(@CurrentUser Account account, @PathVariable String path, @PathVariable("id") Event event, Model model) {
         model.addAttribute(account);
         model.addAttribute(event);
-        model.addAttribute(studyService.getStudy(path));
+        model.addAttribute(studyRepository.findStudyWithManagersByPath(path));
         return "event/view";
     }
 
