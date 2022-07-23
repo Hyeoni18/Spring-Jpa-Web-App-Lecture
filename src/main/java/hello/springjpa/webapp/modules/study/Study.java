@@ -16,22 +16,22 @@ import java.util.Set;
 //view 변경할 때마다 발생하는 쿼리 살펴보기, 어차피 가져올 데이터라면 join해서 가져오기.
 // left outer join으로 연관 데이터 한 번에 조회 가능
 // entityManagerGraph 정의 -> repository에서 사용
-@NamedEntityGraph(name = "Study.withAll", attributeNodes = {
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("zones"),
-        @NamedAttributeNode("managers"),
-        @NamedAttributeNode("members")})
-@NamedEntityGraph(name = "Study.withTagsAndManagers", attributeNodes = {
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("managers")})
-@NamedEntityGraph(name = "Study.withZonesAndManagers", attributeNodes = {
-        @NamedAttributeNode("zones"),
-        @NamedAttributeNode("managers")})
-@NamedEntityGraph(name = "Study.withManagers", attributeNodes = {
-        @NamedAttributeNode("managers")})
-@NamedEntityGraph(name = "Study.withTagsAndZones", attributeNodes = {
-        @NamedAttributeNode("tags"),
-        @NamedAttributeNode("zones")})
+//@NamedEntityGraph(name = "Study.withAll", attributeNodes = {
+//        @NamedAttributeNode("tags"),
+//        @NamedAttributeNode("zones"),
+//        @NamedAttributeNode("managers"),
+//        @NamedAttributeNode("members")})
+//@NamedEntityGraph(name = "Study.withTagsAndManagers", attributeNodes = {
+//        @NamedAttributeNode("tags"),
+//        @NamedAttributeNode("managers")})
+//@NamedEntityGraph(name = "Study.withZonesAndManagers", attributeNodes = {
+//        @NamedAttributeNode("zones"),
+//        @NamedAttributeNode("managers")})
+//@NamedEntityGraph(name = "Study.withManagers", attributeNodes = {
+//        @NamedAttributeNode("managers")})
+//@NamedEntityGraph(name = "Study.withTagsAndZones", attributeNodes = {
+//        @NamedAttributeNode("tags"),
+//        @NamedAttributeNode("zones")})
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @NoArgsConstructor @AllArgsConstructor
